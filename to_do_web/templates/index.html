@@ -1,0 +1,70 @@
+{% extends 'bootstrap/base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block title %}My To-Do List{% endblock %}
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Jua:400" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="col-sm-12 text-center">
+            <h1 class="display-4">My To-Do List</h1>
+            <p class="lead">나는 계획적인 J를 좋아해!</p>
+            <hr>
+        </div>
+    </div>
+    <div class="container">
+        <div class="col-sm-12">
+            <h1>할 일 투성이</h1>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for msg in messages %}
+                        <p class="flash">{{ msg }}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {{ wtf.quick_form(form) }}
+            <hr>
+        </div>
+    </div>
+    <div class="container">
+        <div class="col-sm-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" class="col-sm-2">시작한 날</th>
+                        <th scope="col" class="col-sm-2">끝나는 날</th>
+                        <th scope="col" class="col-sm-6">할 일</th>
+                        <th scope="col" class="col-sm-1 text-center">check!</th>
+                        <th scope="col" class="col-sm-1 text-center">삭제</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if todo_list == [] %}
+                        <tr>
+                            <td scope="col" class="col-sm-2">할 일 없음</td>
+                        </tr>
+                    {% else %}
+                        {% for todo in todo_list %}
+                            <tr>
+                                <td scope="col" class="col-sm-2">{{ todo.start_date }}</td>
+                                <td scope="col" class="col-sm-2">{{ todo.end_date }}</td>
+                                <td scope="col" class="col-sm-6">{{ todo.content }}</td>
+                                <td scope="col" class="col-sm-1" align="center">
+                                    <a href="{{ url_for('change_check', todo_id=todo.id) }}">{{ '✅' if todo.check else '❌' }}</a>
+                                </td>
+                                <td scope="col" class="col-sm-1" align="center">
+                                    <a href="{{ url_for('delete_todo', todo_id=todo.id) }}"><b>🗑</b></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+

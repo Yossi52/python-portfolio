@@ -1,0 +1,41 @@
+body {
+    background-color: #F9F5EB;
+    color: #002B5B;
+    font-family: Jua, sans-serif;
+}
+
+a {
+    color: gray;
+}
+
+hr {
+    background: #EA5455;
+    height: 3px;
+    border: 0
+}
+
+table {
+    font-size: 24px;
+}
+
+.jumbotron {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  height: 100vh;
+  color: #002B5B;
+  background-color: #F9F5EB;
+}
+
+.space-above {
+    margin-top: 20px;
+    padding-top: 20px;
+}
+
+.flash {
+    background: #cee5F5;
+    padding: 0.5em;
+    border: 1px solid #aacbe2;
+    color: red;
+}
+
