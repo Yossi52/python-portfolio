@@ -1,0 +1,67 @@
+{% extends 'bootstrap/base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block title %}Color Extract{% endblock %}
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Jua:400" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="col-sm-12 text-center">
+            <h1 class="display-4">Color Extract</h1>
+            <p class="lead">Extracts the 10 most used colors.</p>
+            <hr>
+        </div>
+    </div>
+    <div class="container">
+        <div class="text-center">
+            <img src="{{ img_path }}" alt="upload image" width="{{ size[0] }}" height="{{ size[1] }}">
+        </div>
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('home') }}">
+            <input type="file" id="myFile" name="file" accept=".jpg; .jpeg; .png"><br>
+            <label style="font-size:18px">Select Tolerance</label><br>
+            <label>The smaller the number, the more detailed the color is.</label><br>
+            <input type="radio" id="10" name="tolerance" value="10">
+            <label for="10">10</label>
+            <input type="radio" id="20" name="tolerance" value="20">
+            <label for="10">20</label>
+            <input type="radio" id="30" name="tolerance" value="30">
+            <label for="10">30</label>
+            <input type="radio" id=40 name="tolerance" value="40">
+            <label for="10">40</label>
+            <input type="radio" id=50 name="tolerance" value="50">
+            <label for="10">50</label><br>
+            <input type="submit" value="Upload">
+        </form>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for msg in messages %}
+                    <p class="flash">{{ msg }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+    <div class="container text-center">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" class="col-sm-6 text-center">Color</th>
+                        <th scope="col" class="col-sm-3 text-center">Code</th>
+                        <th scope="col" class="col-sm-3 text-center">Percent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for color in colors %}
+                        <tr>
+                            <td scope="col" class="col=sm-6"><div style="background-color: {{ color }}" class="color-div"></div></td>
+                            <td scope="col" class="col=sm-3">{{ color }}</td>
+                            <td scope="col" class="col=sm-3">{{ colors[color] }}%</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+    </div>
+{% endblock %}
